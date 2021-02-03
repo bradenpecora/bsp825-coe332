@@ -1,0 +1,142 @@
+[
+  {
+    "head": "snake",
+    "body": "lark-sole",
+    "arms": 6,
+    "legs": 12,
+    "tail": 18
+  },
+  {
+    "head": "bunny",
+    "body": "chimp-snail",
+    "arms": 2,
+    "legs": 9,
+    "tail": 11
+  },
+  {
+    "head": "bull",
+    "body": "tiger-oriole",
+    "arms": 6,
+    "legs": 12,
+    "tail": 18
+  },
+  {
+    "head": "lion",
+    "body": "ewe-crane",
+    "arms": 2,
+    "legs": 9,
+    "tail": 11
+  },
+  {
+    "head": "snake",
+    "body": "turtle-pony",
+    "arms": 4,
+    "legs": 9,
+    "tail": 13
+  },
+  {
+    "head": "raven",
+    "body": "man-eagle",
+    "arms": 4,
+    "legs": 3,
+    "tail": 7
+  },
+  {
+    "head": "bunny",
+    "body": "elk-feline",
+    "arms": 2,
+    "legs": 6,
+    "tail": 8
+  },
+  {
+    "head": "lion",
+    "body": "rodent-kiwi",
+    "arms": 10,
+    "legs": 3,
+    "tail": 13
+  },
+  {
+    "head": "raven",
+    "body": "moray-piglet",
+    "arms": 4,
+    "legs": 12,
+    "tail": 16
+  },
+  {
+    "head": "bunny",
+    "body": "crow-wren",
+    "arms": 2,
+    "legs": 6,
+    "tail": 8
+  },
+  {
+    "head": "raven",
+    "body": "vervet-foal",
+    "arms": 10,
+    "legs": 12,
+    "tail": 22
+  },
+  {
+    "head": "lion",
+    "body": "cow-mammal",
+    "arms": 4,
+    "legs": 3,
+    "tail": 7
+  },
+  {
+    "head": "raven",
+    "body": "sloth-gator",
+    "arms": 4,
+    "legs": 6,
+    "tail": 10
+  },
+  {
+    "head": "raven",
+    "body": "fish-mammal",
+    "arms": 10,
+    "legs": 6,
+    "tail": 16
+  },
+  {
+    "head": "lion",
+    "body": "cobra-badger",
+    "arms": 4,
+    "legs": 6,
+    "tail": 10
+  },
+  {
+    "head": "raven",
+    "body": "possum-badger",
+    "arms": 8,
+    "legs": 12,
+    "tail": 20
+  },
+  {
+    "head": "raven",
+    "body": "clam-turkey",
+    "arms": 10,
+    "legs": 3,
+    "tail": 13
+  },
+  {
+    "head": "lion",
+    "body": "bobcat-asp",
+    "arms": 4,
+    "legs": 6,
+    "tail": 10
+  },
+  {
+    "head": "bull",
+    "body": "jackal-shark",
+    "arms": 6,
+    "legs": 9,
+    "tail": 15
+  },
+  {
+    "head": "bull",
+    "body": "elk-teal",
+    "arms": 10,
+    "legs": 3,
+    "tail": 13
+  }
+]
