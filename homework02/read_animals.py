@@ -4,7 +4,21 @@ import random
 import sys
 
 def summary_stats(animals):
-    
+    """
+    Takes in a list of dictionaries.
+    Each dictionary must contain all of the following keys:
+        'head': must have a string value equivalent to any of the following:
+                    'snake', 'bull', 'lion', 'raven', or bunny
+        'arms': an integer. floats will be typecasted to int.
+        'legs': an integer. floats will be typecasted to int.
+        'tail': an integer. floats will be typecasted to int.
+
+    Function returns a dictionary containing the following:
+        'head': The mode of the heads across the input list.
+        'arms': The mean of the arms across the input list, rounded down to the nearest integer.
+        'legs': The mean of the legs across the input list, rounded down to the nearest integer.
+        'tail': The mean of the tails across the input list, rounded down to the nearest integer.
+    """
     assert isinstance(animals, list)
     
     head_count = {'snake' : 0, 'bull' : 0, 'lion' : 0, 'raven' : 0, 'bunny' : 0}
@@ -13,6 +27,8 @@ def summary_stats(animals):
     tail_count = 0
 
     for animal in animals:
+        assert isinstance(animal, dict)
+        
         this_head = animal['head']
         this_arms = animal['arms']
         this_legs = animal['legs']
