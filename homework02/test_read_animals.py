@@ -45,6 +45,13 @@ class TestReadAnimals(unittest.TestCase):
         self.assertRaises(AssertionError, summary_stats, True)
         self.assertRaises(AssertionError, summary_stats, {})
 
+        #Checks if input list only contains dictionaries
+        self.assertRaises(AssertionError, summary_stats, [{'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},True])
+        self.assertRaises(AssertionError, summary_stats, [{'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},1.0])
+        self.assertRaises(AssertionError, summary_stats, [{'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},2])
+        self.assertRaises(AssertionError, summary_stats, [{'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},'a'])
+
+
         #The following check if head is a string containing a valid value
         anims06 = [{'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},
                   {'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},
@@ -65,6 +72,11 @@ class TestReadAnimals(unittest.TestCase):
                   {'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},
                   {'head': [3,4,'raven'], 'arms': 1, 'legs': 1, 'tail': 1}]
         self.assertRaises(AssertionError, summary_stats, anims09)
+
+        anims09a = [{'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},
+                  {'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},
+                  {'arms': 1, 'legs': 1, 'tail': 1}]
+        self.assertRaises(KeyError, summary_stats, anims09a)
 
         #The following check if arms legs or tail are valid data types
         anims10 = [{'head': 'raven', 'arms': 1, 'legs': 1, 'tail': 1},
