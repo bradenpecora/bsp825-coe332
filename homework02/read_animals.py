@@ -58,12 +58,12 @@ def summary_stats(animals):
 def main():
 
     with open(sys.argv[1], 'r') as f:
-        animals = json.load(f)
+        animal_dict = json.load(f)
 
-    animal = animals[random.randrange(len(animals))]
-    print(f'Random animal: {animal}')
+    rand_animal = random.choice(animal_dict['animals'])
+    print(f'Random Animal: {rand_animal}')
 
-    avg_animal = summary_stats(animals)
+    avg_animal = summary_stats(animal_dict['animals'])
     print(f'Average animal: {avg_animal}')
 
 if __name__ == '__main__':
