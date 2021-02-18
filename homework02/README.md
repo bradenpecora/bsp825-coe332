@@ -1,6 +1,6 @@
 # Homework02: The Containers and Repositories of Dr. Moreau
 
-This directory contains the second homework for COE332. This assignment is an extension of the first homwork, which could generate and parse .json files containing animal statistics. This homwork adds the `summary stats` function to ['read_animals.py'](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework02/read_animals.py), which prints average values for certain animal statistics. A [unit test](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework02/test_read_animals.py) is included that can be ran on this function. Furthermore, the ability to containerize the project using
+This directory contains the second homework for COE332. This assignment is an extension of the first homwork, which could generate and parse .json files containing animal statistics. This homwork adds the `summary_stats` function to ['read_animals.py'](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework02/read_animals.py), which prints average values for certain animal statistics. A [unit test](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework02/test_read_animals.py) is included that can be ran on this function. Furthermore, the ability to containerize the project using
 Docker was added in this assignment.
 
 # Dependencies
@@ -79,7 +79,7 @@ docker run --rm -v $PWD:/data -u $(id -u):$(id -g) username/json-parser:1.0 gene
 docker run --rm -v $PWD:/data -u $(id -u):$(id -g) username/json-parser:1.0 read_animals.py /data/animals.json
 ```
 
-These scripts can also be executed using docker-compose. Navigate to [`docker-compose.yaml`](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework02/docker-compose.yaml) and change the user ID in line 10 to your own. The format is userID:groupID. Your user ID and group ID can be found using `id -u` and `id - g`, respectively, on the command line. To run the scripts, use the following on the command line:
+These scripts can also be executed using docker-compose. Navigate to [`docker-compose.yaml`](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework02/docker-compose.yaml) and change the user ID in line 10 to your own. The format is userID:groupID. Your user ID and group ID can be found using `id -u` and `id -g`, respectively, on the command line. To run the scripts, use the following on the command line:
 ```bash
 docker-compose run gen-anim
 docker-compose run read-anim
