@@ -1,0 +1,19 @@
+---
+version: "3"
+
+services:
+  gen-anim:
+    image: bradenpecora/json-parser:1.0
+    volumes:
+      - ./data:/data
+    user: "869731:816966"
+    command: generate_animals.py /data/animals.json
+  
+  # this runs the read_animals.py script
+  read-anim:
+    image: bradenpecora/json-parser:1.0
+    volumes:
+      - ./data:/data
+    command: read_animals.py /data/animals.json
+
+...
