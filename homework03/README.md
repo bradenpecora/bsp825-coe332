@@ -36,9 +36,12 @@ cd bsp825-coe332/homework03
 If the user wishes to build an image to containerize the app, this can be done by navigating to the `\web` directory and executing the following:
 
 ```bash
-docker build -t <your_name>-flask-helloworld:latest .
-docker run --name "give your container a name" -d -p <your portnumber>:5000 flask-helloworld
+docker build -t <an-image-name>:latest .
+docker run --name "give your container a name" -d -p <your portnumber>:5000 <an-image-name>
 ```
+
+To stop the container, first find the container number with `docker ps -a`. Then execute `docker stop <container number>`.
+To remove the container, execute `docker rmi <container number>`.
 
 # Running App in Command Line
 
