@@ -1,8 +1,8 @@
 # Homework 3: Flask
 
-This directory contains the third homework for COE332. In this assignment, a Flask app was developed that can return (filtered) information from an ['included file'](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web/data_file.json)). This app can be run from the command line directly, or through a Docker container. Instructions for interacting with the app both ways are provided.
+This directory contains the third homework for COE332. In this assignment, a Flask app was developed that can return (filtered) information from an [`included file`](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web/data_file.json)). This app can be run from the command line directly, or through a Docker container. Instructions for interacting with the app both ways are provided.
 
-The ['app'](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web/app.py), ['data file'](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web/data_file.json), and files needed to containerize the app are in the ['/web'](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web) directory. The consumer file (['requestor.py'](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/requestor.py)).
+The [`app`](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web/app.py), [`data file`](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web/data_file.json), and files needed to containerize the app are in the [`/web`](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/web) directory. The consumer file ([`requestor.py`](https://github.com/bradenpecora/bsp825-coe332/blob/main/homework03/requestor.py)).
 
 # Dependencies
 
