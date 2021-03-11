@@ -13,7 +13,7 @@ def get_data():
     """
     with open("data_file.json", "r") as json_file:
         userdata = json.load(json_file)
-        return userdata
+    return userdata
 
 @app.route('/animals', methods=['GET'])
 def get_animals():
