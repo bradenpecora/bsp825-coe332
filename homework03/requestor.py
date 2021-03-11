@@ -1,6 +1,7 @@
 import requests
 
-# Chose or adjust a response accordingly:
+# Chose or adjust a response accordingly
+# (make sure to change the port)
 
 response = requests.get(url="http://localhost:5026/animals")
 # response = requests.get(url="http://localhost:5026/animals/head/bunny")
