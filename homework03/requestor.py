@@ -1,7 +1,10 @@
 import requests
-# response = requests.get(url="http://localhost:5026/animals")
+
+# Chose or adjust a response accordingly:
+
+response = requests.get(url="http://localhost:5026/animals")
 # response = requests.get(url="http://localhost:5026/animals/head/bunny")
-response = requests.get(url="http://localhost:5026/animals/legs/6")
+# response = requests.get(url="http://localhost:5026/animals/legs/6")
 
 
 print(f'Response Code: {response.status_code} \n')
