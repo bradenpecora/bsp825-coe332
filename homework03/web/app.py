@@ -27,31 +27,20 @@ def get_animal_heads(head_type):
     """
     Returns a JSON formatted string containing a list of animals (in a dictionary) with the inputted head type.
     """
-    animal_dict = get_data()
-    animal_head_dict = {}
-    animal_head_dict['animals'] = []
-    
-    for animal in animal_dict['animals']:
-        if animal['head'] == head_type:
-            animal_head_dict['animals'].append(animal)
-
-    return jsonify(animal_head_dict)
+    animals = get_data()["animals"]
+    print(type(animals))
+    output = [animal for animal in animals if animal['head'] == head_type]
+    return jsonify(output)
 
 @app.route('/animals/legs/<n_legs>', methods=['GET'])
 def get_animal_legs(n_legs):
     """
     Returns a JSON formatted string containing a list of animals (in a dictionary) with the inputted amount of legs.
     """
-    n_legs = int(n_legs)
-    animal_dict = get_data()
-    animal_head_dict = {}
-    animal_head_dict['animals'] = []
-    
-    for animal in animal_dict['animals']:
-        if animal['legs'] == n_legs:
-            animal_head_dict['animals'].append(animal)
-
-    return jsonify(animal_head_dict)
+    animals = get_data()["animals"]
+    print(type(animals))
+    output = [animal for animal in animals if animal['legs'] == int(n_legs)]
+    return jsonify(output)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
