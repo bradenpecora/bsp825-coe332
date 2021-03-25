@@ -1,3 +1,4 @@
 /exercises/*
-/homework02/test/*
 **/__pycache__/
+/homework02/test/*
+/homework_midterm/data_file.json
