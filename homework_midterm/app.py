@@ -1,8 +1,21 @@
 import json
 from flask import Flask, jsonify, request
 from datetime import datetime
+import redis
 
 app = Flask(__name__)
+
+rd = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+
+@app.route('/animals/reload')
+def load_file():
+    with open("data_file.json", "r") as json_file:
+        data = json.load(json_file)
+
+    rd.set('animals_key', json.dumps(data))
+    return "Animals reloaded \n"
+
+load_file()
 
 @app.route('/helloworld', methods=['GET'])
 def hello_world():
@@ -12,9 +25,9 @@ def get_data():
     """
     Gets data from "data_file.json"
     """
-    with open("data_file.json", "r") as json_file:
-        userdata = json.load(json_file)
-    return userdata
+    # with open("data_file.json", "r") as json_file:
+    #     userdata = json.load(json_file)
+    return json.loads(rd.get('animals_key'))
 
 @app.route('/animals', methods=['GET'])
 def get_animals():
@@ -101,9 +114,9 @@ def edit_animal():
                     animal[stat_name] = stat_value
 
     animal_dict = {'animals':animals}
-    with open('data_file.json', 'w') as f:
-        json.dump(animal_dict, f, indent=2)
-
+    # with open('data_file.json', 'w') as f:
+    #     json.dump(animal_dict, f, indent=2)
+    rd.set('animals_key', json.dumps(animal_dict))
     return "Animal updated \n"
 
 #deletes a selection of animals by a date range
@@ -131,9 +144,9 @@ def delete_date_range():
             output.append(animal)
 
     animal_dict = {'animals':output}
-    with open('data_file.json', 'w') as f:
-        json.dump(animal_dict, f, indent=2)
-
+    # with open('data_file.json', 'w') as f:
+    #     json.dump(animal_dict, f, indent=2)
+    rd.set('animals_key', json.dumps(animal_dict))
     return "Animals removed \n"
 
 #returns the average number of legs per animals
