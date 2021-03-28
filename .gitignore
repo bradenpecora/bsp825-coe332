@@ -9,5 +9,7 @@
 /homework_midterm/data
 /homework_midterm/flask/data
 /homework_midterm/flask/mydata/data_file.json
-/homework_midterm/redis/data
-/homework_midterm/redis/mydata/dump.rdb
+/homework_midterm/redis/data/*
+/homework_midterm/redis/mydata/*
+/homework_midterm/redis/my_data/*
+/homework_midterm/redis/datum/dump.rdb

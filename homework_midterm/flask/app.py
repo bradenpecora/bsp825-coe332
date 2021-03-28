@@ -9,6 +9,9 @@ rd = redis.StrictRedis(host='redis', port=6379, db=0)
 
 @app.route('/animals/load')
 def load_file():
+    """
+    Loads file into redis database
+    """
     with open("mydata/data_file.json", "r") as json_file:
         data = json.load(json_file)
 
@@ -25,7 +28,14 @@ def get_data():
     """
     # with open("data_file.json", "r") as json_file:
     #     userdata = json.load(json_file)
-    return json.loads(rd.get('animals_key'))
+    data = rd.get('animals_key')
+    if data is None: 
+        # Everytime data is 'gotten', checks to see if data exists.
+        # If data DNE, it is loaded from the .json file.
+        load_file()
+        data = rd.get('animals_key')
+        print("No animals detected in database. Animals loaded from file")
+    return json.loads(data)
 
 @app.route('/animals', methods=['GET'])
 def get_animals():
@@ -57,6 +67,9 @@ def get_animal_legs(n_legs):
 #query a range of dates
 @app.route('/animals/date_range', methods=['GET'])
 def date_range():
+    """"
+    Returns all animals between the queried date range 'date1' and 'date2'. Date format is YYYY-MM-DD+HH:MM:SS.SSSSSS.
+    """
     animals = get_data()["animals"]
 
     date1str = request.args.get('date1')
@@ -83,21 +96,32 @@ def date_range():
 #selects a particular creature by its unique identifier
 @app.route('/animals/uid', methods=['GET'])
 def get_from_uid():
+    """
+    Returns the animal with the queried UID
+    """
     animals = get_data()["animals"]
     print(type(animals))
 
     uid = request.args.get('uid')
+    uid_found = False
 
     for animal in animals:
         if animal['uid'] == uid:
             output = animal
+            uid_found = True
             break
-
-    return jsonify(output)
+    
+    if uid_found:
+        return jsonify(output)
+    else:
+        return "Animal not found \n"
 
 #edits a particular creature by passing the UUID, and updated "stats"
 @app.route('/animals/edit', methods=['GET'])
 def edit_animal():
+    """
+    Edits the animal with the quiered UID. Adjusted quiered stat_name(s) with quiered stat_value(s)
+    """
     animals = get_data()["animals"]
     uid = request.args.get('uid')
 
@@ -120,6 +144,9 @@ def edit_animal():
 #deletes a selection of animals by a date range
 @app.route('/animals/date_range/delete', methods=['GET'])
 def delete_date_range():
+    """"
+    Deletes all animals between the queried date range 'date1' and 'date2'. Date format is YYYY-MM-DD+HH:MM:SS.SSSSSS.
+    """
     animals = get_data()["animals"]
 
     date1str = request.args.get('date1')
@@ -150,6 +177,9 @@ def delete_date_range():
 #returns the average number of legs per animals
 @app.route('/animals/legs/average', methods=['GET'])
 def average_legs():
+    """"
+    Returns the average number of legs per animal of the animals in the redis database
+    """
     animals = get_data()["animals"]
     print(type(animals))
 
@@ -165,6 +195,9 @@ def average_legs():
 #returns a total count of animals
 @app.route('/animals/total_count', methods=['GET'])
 def get_total_animal_count():
+    """
+    Returns the total count of animals in the redis database
+    """
     animals = get_data()["animals"]
     print(type(animals))
     output = len(animals)

@@ -38,16 +38,18 @@ Now that `data_file.json` is created, the flask and redis services can be contai
 docker-compose -p <name> up -d
 ```
 - The `-p` flag is the project tag: change `<name>` to whatever you wish.
-- THe `-d` flag runs the container in daemon/detached mode. This flag is optional.
+- The `-d` flag runs the container in daemon/detached mode. This flag is optional.
+
+NOTE: The docker-compose has the redis service run under my user ID. To change this, replace the numbers in line 17 of `docker-compose.yml` with `"<your user id>:<your group id>"`.
 
 ## Usage
 
 Now that the application is up and running, a variety of routes can be hit to interact with the animal data:
 
 ```bash
-curl `localhost:5026/animals/load`
+curl 'localhost:5026/animals/load'
 ```
-This route loads (or reloads) the animals from `data_file.json` into the redis database. The animals *should* already be loaded into the database from installation, so this route's main purpose is to reset the data if something goes awry.
+This route loads (or reloads) the animals from `data_file.json` into the redis database. The app checks to see if data is loaded everytime a route is hit, so this route *should* only have to be used for reloading data.
 
 #
 

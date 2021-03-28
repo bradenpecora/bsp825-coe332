@@ -13,5 +13,6 @@ services:
            - 6406:6379
         volumes:
            - ./redis/config/redis.conf:/redis.conf
-           - ./redis/mydata/:/data
+           - ./redis/datum/:/data
+        user: "869731:816966"
         command: [ "redis-server", "/redis.conf" ]
