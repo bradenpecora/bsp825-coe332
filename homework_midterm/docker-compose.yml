@@ -2,7 +2,7 @@ version: '3'
 services:    
       web:
         build: ./flask
-        container_name: main_web_bsp
+        container_name: web
         ports:
            - 5026:5000
         volumes:
@@ -13,5 +13,5 @@ services:
            - 6406:6379
         volumes:
            - ./redis/config/redis.conf:/redis.conf
-           - .redis/mydata/:/data
+           - ./redis/mydata/:/data
         command: [ "redis-server", "/redis.conf" ]

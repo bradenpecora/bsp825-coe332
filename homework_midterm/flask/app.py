@@ -15,8 +15,6 @@ def load_file():
     rd.set('animals_key', json.dumps(data))
     return "Animals reloaded \n"
 
-# load_file()
-
 @app.route('/helloworld', methods=['GET'])
 def hello_world():
     return "Hello World!!\n"
@@ -120,7 +118,7 @@ def edit_animal():
     return "Animal updated \n"
 
 #deletes a selection of animals by a date range
-@app.route('/animals/delete_date_range', methods=['GET'])
+@app.route('/animals/date_range/delete', methods=['GET'])
 def delete_date_range():
     animals = get_data()["animals"]
 

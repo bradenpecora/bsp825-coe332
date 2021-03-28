@@ -24,12 +24,12 @@ def main():
 
         animal_dict['animals'].append(this_animal)
 
-    with open('data/data_file.json', 'w') as f:
+    with open('flask/mydata/data_file.json', 'w') as f:
         json.dump(animal_dict, f, indent=2)
 
     
-    rd = redis.StrictRedis(host='redis', port=6379, db=0)
-    rd.set('animals_key', json.dumps(animal_dict))
+    # rd = redis.StrictRedis(host='redis', port=6379, db=0)
+    # rd.set('animals_key', json.dumps(animal_dict))
 
 if __name__ == '__main__':
     main()
