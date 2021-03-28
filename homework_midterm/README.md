@@ -63,35 +63,49 @@ curl 'localhost:5026/animals/total_count'
 ```
 Prints the total amount of animals currently in the redis database.
 
+#
+
 ```bash
 curl 'localhost:5026/animals/head/<head_type>'
 ```
 Prints all animals with `<head_type>`.
+
+#
 
 ```bash
 curl 'localhost:5026/animals/legs/<n_legs>'
 ```
 Prints all animals that have `<n_legs>`.
 
+#
+
 ```bash
 curl 'localhost:5026/animals/legs/average'
 ```
 Prints the average number of legs per animal in the database.
+
+#
 
 ```bash
 curl 'localhost:5026/animals/date_range?date1=YYYY-MM-DD+HH:MM:SS.SSSSSS&date2=YYYY-MM-DD+HH:MM:SS.SSSSSS'
 ```
 Prints all animals that were created on or within date1 and date2. Please note the format of the date. For example, March 28 2021 at 15 hours, 31 minutes, and 26.000000 seconds would be inputted as `2021-03-28+15:31:26.000000`. 
 
+#
+
 ```bash
 curl 'localhost:5026/animals/date_range/delete?date1=YYYY-MM-DD+HH:MM:SS.SSSSSS&date2=YYYY-MM-DD+HH:MM:SS.SSSSSS'
 ```
 Following as before, this route will delete all animals on or between date1 and date2. Please see the above route for formatting.
 
+#
+
 ```bash
 curl 'localhost:5026/animals/uid?uid=<uid>'
 ```
 Replace `<uid>` with an animal's UID to have the app return that animal.
+
+#
 
 ```bash
 curl 'localhost:5026/animals/edit?uid=<uid>&<stat_name1>=<stat_value1>&<state_name2>=<stat_value2>
