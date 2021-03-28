@@ -45,14 +45,18 @@ docker-compose -p <name> up -d
 Now that the application is up and running, a variety of routes can be hit to interact with the animal data:
 
 ```bash
-curl localhost:5026/animals/load
+curl `localhost:5026/animals/load`
 ```
 This route loads (or reloads) the animals from `data_file.json` into the redis database. The animals *should* already be loaded into the database from installation, so this route's main purpose is to reset the data if something goes awry.
+
+#
 
 ```bash
 curl 'localhost:5026/animals'
 ```
 Prints the list of all animals in the redis database.
+
+#
 
 ```bash
 curl 'localhost:5026/animals/total_count'
