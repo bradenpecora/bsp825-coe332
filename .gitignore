@@ -2,3 +2,8 @@
 **/__pycache__/
 /homework02/test/*
 /homework_midterm/data_file.json
+/temp
+/homework_midterm/.redis
+/homework_midterm/data
+/homework_midterm/flask/data
+/homework_midterm/redis/data

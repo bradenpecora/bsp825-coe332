@@ -24,7 +24,7 @@ def main():
 
         animal_dict['animals'].append(this_animal)
 
-    with open('data/data_file.json', 'w') as f:
+    with open('mydata/data_file.json', 'w') as f:
         json.dump(animal_dict, f, indent=2)
 
     

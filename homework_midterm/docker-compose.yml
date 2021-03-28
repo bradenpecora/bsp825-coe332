@@ -1,0 +1,17 @@
+version: '3'
+services:    
+      web:
+        build: ./flask
+        container_name: main_web_bsp
+        ports:
+           - 5026:5000
+        volumes:
+           - ./flask/mydata:/mydata
+      redis:
+        image: redis:latest
+        ports:
+           - 6406:6379
+        volumes:
+           - ./redis/config/redis.conf:/redis.conf
+           - .redis/mydata/:/data
+        command: [ "redis-server", "/redis.conf" ]

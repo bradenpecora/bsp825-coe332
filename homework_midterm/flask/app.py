@@ -5,17 +5,17 @@ import redis
 
 app = Flask(__name__)
 
-rd = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+rd = redis.StrictRedis(host='redis', port=6379, db=0)
 
 @app.route('/animals/reload')
 def load_file():
-    with open("data_file.json", "r") as json_file:
+    with open("data/data_file.json", "r") as json_file:
         data = json.load(json_file)
 
     rd.set('animals_key', json.dumps(data))
     return "Animals reloaded \n"
 
-load_file()
+# load_file()
 
 @app.route('/helloworld', methods=['GET'])
 def hello_world():
