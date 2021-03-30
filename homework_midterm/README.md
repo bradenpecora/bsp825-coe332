@@ -84,7 +84,7 @@ This route allows the user to edit a specific animal by passing its UID. Replace
 ```bash
 curl 'localhost:5026/animals/date_range?date1=YYYY-MM-DD+HH:MM:SS.SSSSSS&date2=YYYY-MM-DD+HH:MM:SS.SSSSSS'
 ```
-Prints all animals that were created on or within date1 and date2. Please note the format of the date. For example, March 28 2021 at 15 hours, 31 minutes, and 26.000000 seconds would be inputted as `2021-03-28+15:31:26.000000`. Please note the `+` between the date and the time; this differs from the way dates are stored in the redis dateabase.
+Prints all animals that were created on or within date1 and date2. Please note the format of the date. For example, March 28 2021 at 15 hours, 31 minutes, and 26.000000 seconds would be inputted as `2021-03-28+15:31:26.000000`. Please note the `+` between the date and the time; this differs from the way dates are stored in the redis database.
 
 #
 
