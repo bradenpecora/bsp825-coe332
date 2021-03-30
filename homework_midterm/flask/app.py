@@ -13,6 +13,9 @@ def hello_world():
 
 @app.route('/animals', methods=['GET'])
 def get_animals():
+    """
+    Returns all animals
+    """
     animals = {}
     for key in rd.scan_iter():
         animals[key] = rd.hgetall(key)
@@ -20,17 +23,19 @@ def get_animals():
 
 @app.route('/animals/delete_all', methods=['GET'])
 def delete_all_animals():
+    """
+    Removes all animals from redis database
+    """
     for key in rd.scan_iter():
         rd.delete(key)
     return "All animals deleted \n"
 
-#query a range of dates
+# query a range of dates
 @app.route('/animals/date_range', methods=['GET'])
 def date_range():
     """"
     Returns all animals between the queried date range 'date1' and 'date2'. Date format is YYYY-MM-DD+HH:MM:SS.SSSSSS.
     """
-
     date1str = request.args.get('date1')
     date1 = datetime.strptime(date1str, "%Y-%m-%d %H:%M:%S.%f")
 
@@ -39,6 +44,7 @@ def date_range():
 
     if date2 < date1:
         # swaps date1 and date2 if date2 < date1
+        # We need date1 < date2
         dummy_date = date1
         date1 = date2
         date2 = dummy_date
@@ -52,7 +58,7 @@ def date_range():
 
     return jsonify(output)
 
-#selects a particular creature by its unique identifier
+# selects a particular creature by its unique identifier
 @app.route('/animals/uid', methods=['GET'])
 def get_from_uid():
     """
@@ -72,13 +78,11 @@ def edit_animal():
     for stat_name in ['head', 'body', 'arms', 'legs', 'tail']:
         stat_value = str(request.args.get(stat_name))
         if stat_value != 'None':
-            if stat_name == 'arms' or stat_name == 'legs' or stat_name == 'tail':
-                stat_value = int(stat_value)
             rd.hset(uid, stat_name, stat_value)
 
     return jsonify(rd.hgetall(uid))
 
-#deletes a selection of animals by a date range
+# deletes a selection of animals by a date range
 @app.route('/animals/date_range/delete', methods=['GET'])
 def delete_date_range():
     """"
@@ -92,18 +96,19 @@ def delete_date_range():
 
     if date2 < date1:
         # swaps date1 and date2 if date2 < date1
+        # We need date1 < date2
         dummy_date = date1
         date1 = date2
         date2 = dummy_date
 
     for key in rd.scan_iter():
         animal_date = datetime.strptime(rd.hget(key,'created_on'), "%Y-%m-%d %H:%M:%S.%f")
-        if animal_date < date1 or animal_date > date2:
+        if animal_date >= date1 and animal_date <= date2:
             rd.delete(key)
 
-    return "Animals removed \n"
+    return "Animals Removed \n"
 
-#returns the average number of legs per animals
+# returns the average number of legs per animals
 @app.route('/animals/legs/average', methods=['GET'])
 def average_legs():
     """"
@@ -114,6 +119,10 @@ def average_legs():
     amount = 0
 
     for key in rd.scan_iter():
+        legs = rd.hget(key, 'legs')
+        if isinstance(legs, str):
+            # Need legs to be a number
+            legs = 0
         average = average + float(rd.hget(key, 'legs'))
         amount = amount + 1
     
@@ -125,7 +134,7 @@ def average_legs():
 
     return jsonify(average)
 
-#returns a total count of animals
+# returns a total count of animals
 @app.route('/animals/total_count', methods=['GET'])
 def get_total_animal_count():
     """
