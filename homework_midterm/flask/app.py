@@ -123,7 +123,7 @@ def average_legs():
         if isinstance(legs, str):
             # Need legs to be a number
             legs = 0
-        average = average + float(rd.hget(key, 'legs'))
+        average = average + float(legs)
         amount = amount + 1
     
     if amount == 0:
