@@ -13,3 +13,4 @@
 /homework_midterm/redis/mydata/*
 /homework_midterm/redis/my_data/*
 /homework_midterm/redis/datum/dump.rdb
+/homework_midterm/flask/old_app.py

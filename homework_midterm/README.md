@@ -26,24 +26,12 @@ The project can be found within the `homework_midterm` directory:
 ```bash
 cd bsp825-coe332/homework_midterm
 ```
-There are two ways to input data into the redis database. The fist of which invloves running the python script `generate_animals_json.py` This python script creates a JSON file in `/flask/mydata` called `data_file.json` containing a variety of random "animals". This file will be included in the Docker container. From the `homework_midterm` directory:
-
-```bash
-python3 generate_animals_json.py
-```
-
-Inputting the data to redis in the form of the .json file allows the data to be reloaded if the user wishes. However, the python script must be run BEFORE the container image is built. Alternatively, the user can use `generate_animals_redis.py` to send a new set of random animals to the redis database AFTER the image is built and the container is running.
-
-```bash
-python3 generate_animals_redis.py
-```
-
 #
 
 The flask and redis services can be containered using docker-compose. To build and run the image, execute the following from the `homework_midterm` directory:
 
 ```bash
-docker-compose -p <name> up -d
+[homework_midterm]$ docker-compose -p <name> up -d
 ```
 - The `-p` flag is the project tag: change `<name>` to whatever you wish.
 - The `-d` flag runs the container in daemon/detached mode. This flag is optional.
@@ -52,12 +40,16 @@ NOTE: The docker-compose has the redis service run under my user ID. To change t
 
 ## Usage
 
-Now that the application is up and running, a variety of routes can be hit to interact with the animal data:
+#### Generation:
+
+Now that the application is up and running, animals must be put into the database. Animals can be generated with:
 
 ```bash
-curl 'localhost:5026/animals/load'
+[homework_midterm]$ python3 generate_animals.py
 ```
-This route loads reloads the animals from `data_file.json` into the redis database, which would only be the case if `generate_animals_json.py` was run before building the image. Hitting this route without using `generate_animals_json.py` *will* result in an error!
+#### Routes:
+
+A variety of routes can be hit to interact with the animal data:
 
 #
 
@@ -69,30 +61,23 @@ Prints the list of all animals in the redis database.
 #
 
 ```bash
-curl 'localhost:5026/animals/total_count'
+curl 'localhost:5026/animals/delete_all'
 ```
-Prints the total amount of animals currently in the redis database.
+Deletes all animals currently in the redis database.
 
 #
 
 ```bash
-curl 'localhost:5026/animals/head/<head_type>'
+curl 'localhost:5026/animals/uid?uid=<uid>'
 ```
-Prints all animals with `<head_type>`.
+Replace `<uid>` with an animal's UID to have the app return that animal.
 
 #
 
 ```bash
-curl 'localhost:5026/animals/legs/<n_legs>'
+curl 'localhost:5026/animals/edit?uid=<uid>&<stat_name1>=<stat_value1>&<state_name2>=<stat_value2>'
 ```
-Prints all animals that have `<n_legs>`.
-
-#
-
-```bash
-curl 'localhost:5026/animals/legs/average'
-```
-Prints the average number of legs per animal in the database.
+This route allows the user to edit a specific animal by passing its UID. Replace `<stat_name>` with any of the following: `head`,`body`,`legs`, or `tail`. Replace `<stat_value>` with the value you want to update for the specific statistic. Multiple stats can be adjusted at once with a single route. Simply add statistics and their value by appending `&<next_stat_name>=<next_stat_value>` to the route.
 
 #
 
@@ -111,25 +96,27 @@ Following as before, this route will delete all animals on or between date1 and 
 #
 
 ```bash
-curl 'localhost:5026/animals/uid?uid=<uid>'
+curl 'localhost:5026/animals/legs/average'
 ```
-Replace `<uid>` with an animal's UID to have the app return that animal.
+Prints the average number of legs per animal in the database.
 
 #
 
 ```bash
-curl 'localhost:5026/animals/edit?uid=<uid>&<stat_name1>=<stat_value1>&<state_name2>=<stat_value2>
+curl 'localhost:5026/animals/total_count
 ```
-This route allows the user to edit a specific animal by passing its UID. Replace `<stat_name>` with any of the following: `head`,`body`,`legs`, or `tail`. Replace `<stat_value>` with the value you want to update for the specific statistic. Multiple stats can be adjusted at once with a single route. Simply add statistics and their value by appending `&<next_stat_name>=<next_stat_value>` to the route.
+Prints the total count of animals in the redis database.
 
 ## Removal
 
 To take down the container:
 ```bash
-docker-compose -p <name> down
+[homework_midterm]$ docker-compose -p <name> down
 ```
 
 To remove the image, first find the image ID with `docker images` (`grep` will help). Then:
 ```bash
-docker rmi <image-id>
+[homework_midterm]$ docker rmi <image-id>
 ```
+
+The database data is maintained in the file `/redis/datum/dump.rdb`. This file should be removed if the user does not wish to maintain the data.
