@@ -1,8 +1,8 @@
 version: '3'
 services:    
-      web:
+      web_bsp:
         build: ./flask
-        container_name: web
+        container_name: web_bsp
         ports:
            - 5026:5000
         volumes:

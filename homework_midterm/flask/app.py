@@ -32,9 +32,9 @@ def get_data():
     if data is None: 
         # Everytime data is 'gotten', checks to see if data exists.
         # If data DNE, it is loaded from the .json file.
+        # Error occurs if .json file DNE.
         load_file()
         data = rd.get('animals_key')
-        print("No animals detected in database. Animals loaded from file")
     return json.loads(data)
 
 @app.route('/animals', methods=['GET'])

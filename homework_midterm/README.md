@@ -26,13 +26,21 @@ The project can be found within the `homework_midterm` directory:
 ```bash
 cd bsp825-coe332/homework_midterm
 ```
-Foremost, `generate_animals.py` must be run. This python script creates a json file in `/flask/mydata` called `data_file.json`. This file includes the data that will be uploaded to redis and interacted with. From the `homework_midterm` directory:
+There are two ways to input data into the redis database. The fist of which invloves running the python script `generate_animals_json.py` This python script creates a JSON file in `/flask/mydata` called `data_file.json` containing a variety of random "animals". This file will be included in the Docker container. From the `homework_midterm` directory:
 
 ```bash
-python3 generate_animals.py
+python3 generate_animals_json.py
 ```
 
-Now that `data_file.json` is created, the flask and redis services can be containered using docker-compose. To build and run the image, execute the following from the `homework_midterm` directory:
+Inputting the data to redis in the form of the .json file allows the data to be reloaded if the user wishes. However, the python script must be run BEFORE the container image is built. Alternatively, the user can use `generate_animals_redis.py` to send a new set of random animals to the redis database AFTER the image is built and the container is running.
+
+```bash
+python3 generate_animals_redis.py
+```
+
+#
+
+The flask and redis services can be containered using docker-compose. To build and run the image, execute the following from the `homework_midterm` directory:
 
 ```bash
 docker-compose -p <name> up -d
@@ -49,7 +57,7 @@ Now that the application is up and running, a variety of routes can be hit to in
 ```bash
 curl 'localhost:5026/animals/load'
 ```
-This route loads (or reloads) the animals from `data_file.json` into the redis database. The app checks to see if data is loaded everytime a route is hit, so this route *should* only have to be used for reloading data.
+This route loads reloads the animals from `data_file.json` into the redis database, which would only be the case if `generate_animals_json.py` was run before building the image. Hitting this route without using `generate_animals_json.py` *will* result in an error!
 
 #
 
@@ -121,7 +129,7 @@ To take down the container:
 docker-compose -p <name> down
 ```
 
-To remove the image, first find the image ID with `docker images`. Then:
+To remove the image, first find the image ID with `docker images` (`grep` will help). Then:
 ```bash
 docker rmi <image-id>
 ```
