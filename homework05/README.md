@@ -91,6 +91,8 @@ pod "hello-personalized-bspB" deleted
 
 ## C
 
+Create a deployment with the previous properties and three replicas, and have each pod send its IP address in its message. 
+
 1. Yaml file used and command issued to create the deployment:
 ```yml
 ---
