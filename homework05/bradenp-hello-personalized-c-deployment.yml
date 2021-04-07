@@ -4,16 +4,16 @@ kind: Deployment
 metadata:
   name: hello-deployment-personalized-c
   labels:
-    app: hello-personalized
+    app: hello-personalized-c
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: hello-app
+      app: hello-personalized-c
   template:
     metadata:
       labels:
-        app: hello-app
+        app: hello-personalized-c
         greeting: personalized
     spec:
       containers:

@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello-personalized-bspB
+  name: hello-personalized-b
   labels:
     greeting: personalized
 spec:
