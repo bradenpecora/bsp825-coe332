@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-deployment-personalized-c
+  name: hello-personalized-c-deployment
   labels:
     app: hello-personalized-c
 spec:
