@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bradenp-test-flask-deployment
+  labels:
+    username: bradenp
+    env: test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      username: bradenp
+      env: test
+  template:
+    metadata:
+      labels:
+        username: bradenp
+        env: test
+        app: bradenp-test-flask
+    spec:
+      containers:
+        - name: helloflask
+          imagePullPolicy: Always
+          image: bradenpecora/flask-animals:1.0
+          env:
+          - name: FLASK_APP
+            value: "app.py"
+          - name: FLASK_ENV
+            value: "development"
+          ports:
+          - name: http
+            containerPort: 5000

@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bradenp-debug-py-deployment
+  labels:
+    app: py-app
+    username: bradenp
+    env: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: py-app
+  template:
+    metadata:
+      labels:
+        app: py-app
+        username: bradenp
+        env: test
+    spec:
+      containers:
+        - name: py39
+          image: python:3.9
+          command: ['sleep', '999999999']
