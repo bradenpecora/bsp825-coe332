@@ -65,7 +65,7 @@ Make sure that the cluster IP of `bradenp-test-redis-service` is exactly `10.104
 
 If the user is on isp02, these services should be running with the cluster IPs given above.
 
-Note: The selectors "app=bradenp-test-flask" and "app=bradenp-test-redis" were created to connect the services to the pods, but they can be used to get a specific flask or redis pod as well.
+Note: The selectors `app=bradenp-test-flask` and `app=bradenp-test-redis` were created to connect the services to the pods, but they can be used to get a specific flask or redis pod as well.
 
 #
 ## Redis:
