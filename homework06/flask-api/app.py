@@ -6,10 +6,14 @@ import petname
 import random
 import sys
 import uuid
+import os
 
 app = Flask(__name__)
 
-rd = redis.StrictRedis(host='10.104.165.3', port=6379, db=0)
+redis_ip = os.environ.get('REDIS_IP')
+if not redis_ip:
+    raise Exception()
+rd = redis.StrictRedis(host=redis_ip, port=6379, db=0)
 
 @app.route('/helloworld', methods=['GET'])
 def hello_world():

@@ -28,6 +28,8 @@ spec:
             value: "app.py"
           - name: FLASK_ENV
             value: "development"
+          - name: REDIS_IP
+            value: "10.104.165.3" # Change this to the Cluster IP of the redis service
           ports:
           - name: http
             containerPort: 5000

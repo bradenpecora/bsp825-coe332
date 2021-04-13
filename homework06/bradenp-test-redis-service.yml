@@ -7,7 +7,7 @@ metadata:
     env: test
 spec:
   type: ClusterIP
-  clusterIP: 10.104.165.3 #forces IP of service
+  # clusterIP: 10.104.165.3 # Remove comment and change IP accordingly to force an IP for the redis service
   selector:
     username: bradenp
     env: test
