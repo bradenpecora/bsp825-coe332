@@ -26,7 +26,7 @@ NAME                         TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)   
 bradenp-test-redis-service   ClusterIP   10.104.165.3   <none>        6379/TCP   14s
 ```
 
-*** Take note of the cluster IP. Open `bradenp-test-flask-deployment.yml` in a text editor. In line 32 of the file, change the value of the environment variable `REDIS_IP` to the cluster IP of the redis service. Save the file and return to the command line.
+*** Take note of the Cluster-IP. Open `bradenp-test-flask-deployment.yml` in a text editor. In line 32 of the file, change the value of the environment variable `REDIS_IP` to the Cluster-IP of the redis service. Save the file and return to the command line.
 
 Note: The user can force an IP of the redis service. See line 10 of `bradenp-test-redis-service.yml` and reapply the service if you wish to do so.
 
@@ -72,7 +72,7 @@ NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)  
 bradenp-test-flask-service   ClusterIP   10.98.225.212   <none>        5000/TCP   23m
 bradenp-test-redis-service   ClusterIP   10.104.165.3    <none>        6379/TCP   23m
 ```
-Take note of the the cluster IP of the flask service. We will use this IP to interact with the app.
+Take note of the the Cluster-IP of the flask service. We will use this IP to interact with the app later.
 
 Note: The selectors `app=bradenp-test-flask` and `app=bradenp-test-redis` were created to connect the services to the pods, but they can be used to get a specifically the flask or redis pod(s) as well.
 
@@ -116,7 +116,7 @@ In [8]: exit
 
 #
 ## Flask:
-Now that we have verified that the Redis database is working, we can interact with our Flask app. The routes should be the same as those described in the [midterm homework](https://github.com/bradenpecora/bsp825-coe332/tree/main/homework_midterm). `localhost` should be replaced with the cluster IP of the flask service. In my case, it was `10.98.225.212`. The port is `5000`. The basic form of a curl against the URL of a route is:
+Now that we have verified that the Redis database is working, we can interact with our Flask app. The routes should be the same as those described in the [midterm homework](https://github.com/bradenpecora/bsp825-coe332/tree/main/homework_midterm). The IP address of the URL `localhost` should now be replaced with the Cluster-IP of the flask service, which was found earlier. The port is `5000`. The basic form of a curl against the URL of a route is:
 
 ```bash
 $ curl '<flask-IP>:5000/route'
