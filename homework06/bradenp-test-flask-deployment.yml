@@ -20,7 +20,7 @@ spec:
         app: bradenp-test-flask
     spec:
       containers:
-        - name: helloflask
+        - name: flask-animals
           imagePullPolicy: Always
           image: bradenpecora/flask-animals:1.0
           env:
