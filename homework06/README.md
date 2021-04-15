@@ -37,7 +37,7 @@ To start the remaining deployments, services, and PVCs:
 [bradenp@isp02 homework06]$ kubectl apply -f .
 ````
 
-Take note of the `.` at the end of the command.
+Take note of the `.` at the end of the command. This applies all of the `.yml` files in the current directory.
 
 # Usage
 
@@ -76,10 +76,9 @@ Take note of the the Cluster-IP of the flask service. We will use this IP to int
 
 Note: The selectors `app=bradenp-test-flask` and `app=bradenp-test-redis` were created to connect the services to the pods, but they can be used to get a specifically the flask or redis pod(s) as well.
 
-#
 ## Redis:
 
-Now that we have verified that everything is running, `exec` into a python debug pod. I have provided one, but you can use your own.
+Now that we have verified that everything is running, `exec` into a python debug pod. I have provided one (`bradenp-debug-py-deployment-...`), but you can use your own.
 ```bash
 kubectl exec -it <name-of-debug-pod> -- /bin/bash
 ```
@@ -114,7 +113,6 @@ Out[7]: b'v'
 In [8]: exit
 ```
 
-#
 ## Flask:
 Now that we have verified that the Redis database is working, we can interact with our Flask app. The routes should be the same as those described in the [midterm homework](https://github.com/bradenpecora/bsp825-coe332/tree/main/homework_midterm). The IP address of the URL `localhost` should now be replaced with the Cluster-IP of the flask service, which was found earlier. The port is `5000`. The basic form of a curl against the URL of a route is:
 
