@@ -1,6 +1,6 @@
 # Homework 6: Deploying Flask API to k8s
 
-This homework builds off of homeworks 1,2,3, and the midterm. This directory contains all of the files required to interact with the animals flask app (from previous homeworks) in Kubernetes.
+This homework builds off of the previous homeworks. This directory contains all of the files required to interact with the animals flask app (from previous homeworks) in Kubernetes. See prompt [here](https://coe-332-sp21.readthedocs.io/en/main/week10/services.html#homework-6-deploying-our-flask-api-to-k8s).
 
 # Dependencies
 
