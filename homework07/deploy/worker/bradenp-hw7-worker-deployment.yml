@@ -1,0 +1,35 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bradenp-hw7-worker-deployment
+  labels:
+    username: bradenp
+    env: hw7
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      username: bradenp
+      env: hw7
+  template:
+    metadata:
+      labels:
+        username: bradenp
+        env: hw7
+        app: bradenp-hw7-worker
+    spec:
+      containers:
+        - name: hw7
+          imagePullPolicy: Always
+          image: bradenpecora/hw7:latest
+          args: ["worker.py"]
+          env:
+          - name: REDIS_IP
+            value: "10.104.165.3" # Change this to the Cluster IP of the redis service
+          - name: PYTHONUNBUFFERED
+            value: "0"
+          - name: WORKER_IP
+            valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP

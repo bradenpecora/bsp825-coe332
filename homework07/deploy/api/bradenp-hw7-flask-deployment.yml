@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bradenp-hw7-flask-deployment
+  labels:
+    username: bradenp
+    env: hw7
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      username: bradenp
+      env: hw7
+  template:
+    metadata:
+      labels:
+        username: bradenp
+        env: hw7
+        app: bradenp-hw7-flask
+    spec:
+      containers:
+        - name: hw7
+          imagePullPolicy: Always
+          image: bradenpecora/hw7:latest
+          args: ["api.py"]
+          env:
+          - name: FLASK_APP
+            value: "api.py"
+          - name: FLASK_ENV
+            value: "development"
+          - name: REDIS_IP
+            value: "10.104.165.3" # Change this to the Cluster IP of the redis service
+          ports:
+          - name: http
+            containerPort: 5000
