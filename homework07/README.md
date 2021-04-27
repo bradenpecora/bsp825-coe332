@@ -16,9 +16,9 @@ git clone https://github.com/bradenpecora/bsp825-coe332.git
 
 Navigate to the `homework07/` directory to view the relevant files for this homework.
 
-A redis database in k8s is required. Necessary files are included in `deploy/db`. These files are copied here from [Homework06](https://github.com/bradenpecora/bsp825-coe332/tree/main/homework06) for completeness. Please see [Homework06](https://github.com/bradenpecora/bsp825-coe332/tree/main/homework06) for information on deploying this system. Adjust the `REDIS_IP` environment variable in `deploy/api/bradenp-hw7-flask-deployment.yml` and `deploy/worker/bradenp-hw7-worker-deployment.yml` to match the IP of your redis service. It is worth noting that the `HotQueue` is stored on `db=2` and the `jobs` data is stored on `db=3`.
+A redis database in k8s is required. Necessary files are included in `/deploy/db`. These files are copied here from [Homework06](https://github.com/bradenpecora/bsp825-coe332/tree/main/homework06) for completeness. Please see [Homework06](https://github.com/bradenpecora/bsp825-coe332/tree/main/homework06) for information on deploying this system. Adjust the `REDIS_IP` environment variable in `/deploy/api/bradenp-hw7-flask-deployment.yml` and `/deploy/worker/bradenp-hw7-worker-deployment.yml` to match the IP of your redis service. It is worth noting that the `HotQueue` is stored on `db=2` and the `jobs` data is stored on `db=3`.
 
-A single image containing all required python scripts is published to [Dockerhub](https://hub.docker.com/repository/docker/bradenpecora/hw7), and these sources files can viewed and edited in `source/`. The image can be built locally using the `Dockerfile`.
+A single image containing all required python scripts is published to [Dockerhub](https://hub.docker.com/repository/docker/bradenpecora/hw7), and these sources files can viewed and edited in `/source`. The image can be built locally using the `Dockerfile`.
 
 The following commands applies the necessary Kubernetes resources.
 
@@ -56,10 +56,10 @@ curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "st
 This should return an output similar to the following:
 
 ```bash
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "7ff41c0c-b49c-4473-80e4-d4a5f8acd187"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "9b6f4822-95b9-440c-99ba-e2c5b87b42d4"}
 ```
 
-To see if a worker has processed the job, open up an interactive python interpreter (e.g. `python` or `ipython`) in the debug pod. Check the following:
+To see if a worker has processed the job, open up an interactive python interpreter (e.g. `python` or `ipython`) in the debug pod. Check with the following:
 
 ```python
 In [1]: import redis
@@ -68,15 +68,15 @@ In [2]: rd = redis.StrictRedis(host="<Redis-service-IP", port=6379, db=3)
 # Replace <Redis-service-IP> with the IP of your redis service.
 
 In [3]: rd.keys()
-Out[3]: [b'job.7ff41c0c-b49c-4473-80e4-d4a5f8acd187']
+Out[3]: [b'job.9b6f4822-95b9-440c-99ba-e2c5b87b42d4']
 # The job ID will not be the same, but copy it accordingly for the next input.
 
-In [4]: rd.hgetall('job.7ff41c0c-b49c-4473-80e4-d4a5f8acd187')
+In [4]: rd.hgetall('job.9b6f4822-95b9-440c-99ba-e2c5b87b42d4')
 Out[4]: 
 {b'status': b'complete',
  b'start': b'go!',
  b'end': b'stop!',
- b'id': b'7ff41c0c-b49c-4473-80e4-d4a5f8acd187',
+ b'id': b'9b6f4822-95b9-440c-99ba-e2c5b87b42d4',
  b'worker': b'10.244.15.176'}
  # The worker has updated the job's status to complete and appended it's IP to the job's data.
 ```
@@ -93,33 +93,29 @@ See if any additional pods are running and find their IPs. For instance, I scale
 ```bash
 [bradenp@isp02 homework07]$ kubectl get pods --selector app=bradenp-hw7-worker -o wide
 NAME                                             READY   STATUS    RESTARTS   AGE   IP              NODE                         NOMINATED NODE   READINESS GATES
-bradenp-hw7-worker-deployment-568456f7b8-dt4q4   1/1     Running   0          15m   10.244.15.176   c03                          <none>           <none>
-bradenp-hw7-worker-deployment-568456f7b8-fmdf2   1/1     Running   0          84s   10.244.10.173   c009.rodeo.tacc.utexas.edu   <none>           <none>
+NAME                                             READY   STATUS    RESTARTS   AGE   IP              NODE   NOMINATED NODE   READINESS GATES
+bradenp-hw7-worker-deployment-568456f7b8-jxnx6   1/1     Running   0          14m   10.244.12.172   c12    <none>           <none>
+bradenp-hw7-worker-deployment-568456f7b8-qbr42   1/1     Running   0          84s   10.244.3.161    c01    <none>           <none>
 ```
 
-Return to the debug pod. Create 10 more jobs by making POST requests using curl. Simply repeat the earlier command on the command line.
+Return to the debug pod. Create 10 more jobs by making POST requests using curl. Use a for loop to repeat the earlier command in bash on the debug pod.
 
-```
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "a015d4ea-ea2f-4ebf-9e9a-6283cd4b1b14"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "5acddbfe-7ed7-4d1e-b909-b12437870908"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "23c64332-b4a2-40ec-b882-bb122dda6b49"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "5d333127-b825-43c4-af67-5f048dc4d72a"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "945b64b4-dcde-499b-a251-9bcecec1d7bb"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "2847f92d-887d-485c-bbdd-7dfbf641504b"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "7a69c18a-136c-47c5-8417-b1bd92368605"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "0a79bfbb-23e0-469f-8948-1ba864030278"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "03667a99-bfee-485a-8591-110f29f4bf4a"}
-root@py-debug-deployment-5cc8cdd65f-6kjfd:/# curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
-{"status": "submitted", "start": "go!", "end": "stop!", "id": "3ac4ec76-f5b1-4c22-9382-ad6f727c818c"}
+```bash
+root@bradenp-debug-py-deployment-59b4df4576-lnjpr:/# \
+> for i in {1..10}
+> do
+> curl -X POST -H "content-type: application/json" -d '{"start": "go!", "end": "stop!"}'  10.107.239.99:5000/jobs
+> done
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "43853f24-1542-46e0-8d0d-926af0408347"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "e88428fe-9e38-4705-a790-8900cc2bf8a4"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "e1dce25d-3ec9-48cc-9c7e-24a01b638ff2"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "7e5246c5-1537-480b-a82a-da43891bda84"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "0827867a-3993-4422-9122-7d8d136c2dea"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "40c4a8f5-c02e-4064-ac91-2f15806cf15f"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "db9bbd0f-482d-4c7b-82c9-8267a0c34262"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "dd2bbe8a-f040-49f8-9a8f-ae76535f0be8"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "27a99161-8755-4dd0-a064-18f1c96769ed"}
+{"status": "submitted", "start": "go!", "end": "stop!", "id": "b832a217-5559-459a-81ce-67b758afb87a"}
 ```
 Navigate back to an interactive python interpreter within the debug pod.
 
@@ -131,17 +127,17 @@ In [2]: rd = redis.StrictRedis(host="10.104.165.3", port=6379, db=3)
 In [3]: for key in rd.keys():
    ...:     print(rd.hgetall(key))
    ...: 
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'23c64332-b4a2-40ec-b882-bb122dda6b49', b'worker': b'10.244.15.176'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'945b64b4-dcde-499b-a251-9bcecec1d7bb', b'worker': b'10.244.15.176'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'2847f92d-887d-485c-bbdd-7dfbf641504b', b'worker': b'10.244.10.173'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'a015d4ea-ea2f-4ebf-9e9a-6283cd4b1b14', b'worker': b'10.244.15.176'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'03667a99-bfee-485a-8591-110f29f4bf4a', b'worker': b'10.244.15.176'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'7a69c18a-136c-47c5-8417-b1bd92368605', b'worker': b'10.244.15.176'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'3ac4ec76-f5b1-4c22-9382-ad6f727c818c', b'worker': b'10.244.10.173'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'0a79bfbb-23e0-469f-8948-1ba864030278', b'worker': b'10.244.10.173'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'5acddbfe-7ed7-4d1e-b909-b12437870908', b'worker': b'10.244.10.173'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'5d333127-b825-43c4-af67-5f048dc4d72a', b'worker': b'10.244.10.173'}
-{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'7ff41c0c-b49c-4473-80e4-d4a5f8acd187', b'worker': b'10.244.15.176'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'40c4a8f5-c02e-4064-ac91-2f15806cf15f', b'worker': b'10.244.3.161'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'e88428fe-9e38-4705-a790-8900cc2bf8a4', b'worker': b'10.244.3.161'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'9b6f4822-95b9-440c-99ba-e2c5b87b42d4', b'worker': b'10.244.3.161'} # from earlier
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'db9bbd0f-482d-4c7b-82c9-8267a0c34262', b'worker': b'10.244.12.172'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'27a99161-8755-4dd0-a064-18f1c96769ed', b'worker': b'10.244.12.172'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'7e5246c5-1537-480b-a82a-da43891bda84', b'worker': b'10.244.3.161'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'0827867a-3993-4422-9122-7d8d136c2dea', b'worker': b'10.244.12.172'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'dd2bbe8a-f040-49f8-9a8f-ae76535f0be8', b'worker': b'10.244.3.161'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'b832a217-5559-459a-81ce-67b758afb87a', b'worker': b'10.244.3.161'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'43853f24-1542-46e0-8d0d-926af0408347', b'worker': b'10.244.12.172'}
+{b'status': b'complete', b'start': b'go!', b'end': b'stop!', b'id': b'e1dce25d-3ec9-48cc-9c7e-24a01b638ff2', b'worker': b'10.244.12.172'}
 ```
 
-This output tells us that both workers did some of the jobs. The `worker` key in each job dictionary either contains `10.244.15.176` or `10.244.10.173`, which indicates that the pod with that IP address preformed that job. Of the 10 jobs we just made (the bottom job is from earlier), 5 jobs were handled by each worker. It seems the jobs were distributed evenly.
+This output tells us that both workers did some of the jobs. The `worker` key in each job dictionary either contains `10.244.3.161` or `10.244.12.172`, which indicates that the pod with that IP address preformed that job. Of the 10 jobs we just made (the job from earlier is noted), 5 jobs were handled by each worker. It seems the jobs were distributed evenly.
